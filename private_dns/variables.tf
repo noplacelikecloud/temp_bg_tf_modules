@@ -13,3 +13,23 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "a_records" {
+  description = "List of A records to create. Each object should have `name`, `ipv4_addresses` (list of IPv4 addresses), and an optional `ttl` in seconds."
+  type = list(object({
+    name           = string
+    ipv4_addresses = list(string)
+    ttl            = optional(number)
+  }))
+  default = []
+}
+
+variable "cname_records" {
+  description = "List of CNAME records to create. Each object should have `name`, `record` (target hostname), and an optional `ttl` in seconds."
+  type = list(object({
+    name  = string
+    record = string
+    ttl   = optional(number)
+  }))
+  default = []
+}

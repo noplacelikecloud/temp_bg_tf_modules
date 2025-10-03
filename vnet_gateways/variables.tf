@@ -71,3 +71,49 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "vpn_client_configuration" {
+  description = "VPN client configuration for point‑to‑site connectivity. When set to null no point‑to‑site configuration is added. See the README for schema details."
+  type = object({
+    address_space        = optional(list(string))
+    vpn_client_protocols = optional(list(string))
+    vpn_auth_types       = optional(list(string))
+    aad = optional(object({
+      tenant   = string
+      audience = string
+      issuer   = string
+    }))
+    root_certificates = optional(list(object({
+      name             = string
+      public_cert_data = string
+    })))
+    revoked_certificates = optional(list(object({
+      name       = string
+      thumbprint = string
+    })))
+  })
+  default     = null
+}
+
+variable "s2s_connections" {
+  description = "List of site‑to‑site VPN connections to create for this gateway. Each object may specify `local_network_gateway_id` or `peer_virtual_network_gateway_id` along with connection properties."
+  type = list(object({
+    name                            = string
+    connection_type                 = string
+    shared_key                      = string
+    local_network_gateway_id        = optional(string)
+    peer_virtual_network_gateway_id = optional(string)
+    enable_bgp                      = optional(bool)
+    ipsec_policy = optional(object({
+      dh_group         = string
+      ike_encryption   = string
+      ike_integrity    = string
+      ipsec_encryption = string
+      ipsec_integrity  = string
+      pfs_group        = string
+      sa_lifetime      = number
+      sa_data_size     = number
+    }))
+  }))
+  default = []
+}
