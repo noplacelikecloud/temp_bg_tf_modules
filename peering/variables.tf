@@ -13,6 +13,12 @@ variable "hub_virtual_network_id" {
   type        = string
 }
 
+variable "hub_subscription_id" {
+  description = "Subscription ID of the hub virtual network (if different from the default)"
+  type        = string
+  default     = ""
+}
+
 variable "spoke_resource_group_name" {
   description = "Resource group name of the spoke virtual network"
   type        = string

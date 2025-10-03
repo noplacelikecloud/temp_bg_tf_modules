@@ -25,5 +25,5 @@ resource "azurerm_virtual_network_peering" "spoke_to_hub" {
   allow_gateway_transit        = var.allow_gateway_transit
   use_remote_gateways          = var.use_remote_gateways
 
-  # provider = azurerm.spoke
+  provider = azurerm.spoke
 }
